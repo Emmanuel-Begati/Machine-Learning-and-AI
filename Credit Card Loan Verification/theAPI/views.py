@@ -58,3 +58,5 @@ def cxcontact(request):
 			Self_Employed=form.cleaned['Self_Employed']
 			Property_Area=form.cleaned['Property_Area']
 			print(First_Name, Last_Name, Dependents, Marrige, Property_Area)
+	form = ApprovalForm()
+	return render(request, 'theAPI/cxform.html', {'form':form})
