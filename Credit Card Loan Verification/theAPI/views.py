@@ -38,3 +38,23 @@ def approvereject(request):
 		return JsonResponse('Your Status is {}'.format(newdf), safe=False)
 	except ValueError as e:
 		return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
+
+
+def cxcontact(request):
+	if request.method=='POST':
+		form=ApprovalForm(request.POST)
+		if form.is_valid():
+			First_Name=form.cleaned_data['First_Name']
+			Last_Name=form.cleaned_data['Last_Name']
+			Dependents=form.cleaned_data['Dependents']
+			ApplicantIncome=form.cleaned_data['ApplicantIncome']
+			CoapplicantIncome=form.cleaned_data['CoapplicantIncome']
+			LoanAmount=form.cleaned_data['LoanAmount']
+			Loan_Amount_Term=form.cleaned_data['Loan_Amount_Term']
+			Credit_History=form.cleaned_data['Credit_History']
+			Gender=form.cleaned['Gender']
+			Marrige=form.cleaned['Marrige']
+			Education=form.cleaned['Education']
+			Self_Employed=form.cleaned['Self_Employed']
+			Property_Area=form.cleaned['Property_Area']
+			print(First_Name, Last_Name, Dependents, Marrige, Property_Area)
