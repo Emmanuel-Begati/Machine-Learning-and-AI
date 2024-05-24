@@ -1,7 +1,12 @@
+from django.urls import path, include
+from . import views
+from rest_framework import routers
 
-from django.contrib import admin
-from django.urls import path
-
+router = routers.DefaultRouter()
+router.register('MyAPI', views.ApprovalsView)
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+	path('form/', views.ApprovalForm, name='myform'),
+    path('api/', include(router.urls)),
+    path('status/', views.approvereject),
+ 
+] 
