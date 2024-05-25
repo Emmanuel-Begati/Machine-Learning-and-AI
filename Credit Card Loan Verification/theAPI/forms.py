@@ -1,6 +1,6 @@
 from django import forms 
 
-class ApprovalForm(forms.form):
+class ApprovalForm(forms.Form):
 	First_Name = forms.CharField(max_length=15)
 	Last_Name = forms.CharField(max_length=15)
 	Dependents = forms.IntegerField()

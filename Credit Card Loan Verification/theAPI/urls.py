@@ -8,5 +8,6 @@ urlpatterns = [
 	path('form/', views.ApprovalForm, name='myform'),
     path('api/', include(router.urls)),
     path('status/', views.approvereject),
+    path('cx/', views.cxcontact),
  
 ] 
