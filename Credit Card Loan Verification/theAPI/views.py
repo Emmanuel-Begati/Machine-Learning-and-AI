@@ -52,11 +52,20 @@ def cxcontact(request):
 			LoanAmount=form.cleaned_data['LoanAmount']
 			Loan_Amount_Term=form.cleaned_data['Loan_Amount_Term']
 			Credit_History=form.cleaned_data['Credit_History']
-			Gender=form.cleaned['Gender']
-			Marrige=form.cleaned['Marrige']
-			Education=form.cleaned['Education']
-			Self_Employed=form.cleaned['Self_Employed']
-			Property_Area=form.cleaned['Property_Area']
-			print(First_Name, Last_Name, Dependents, Marrige, Property_Area)
-	form = ApprovalForm()
-	return render(request, 'theAPI/cxform.html', {'form':form})
+			Gender=form.cleaned_data['Gender']
+			Marrige=form.cleaned_data['Marrige']
+			Education=form.cleaned_data['Education']
+			Self_Employed=form.cleaned_data['Self_Employed']
+			Property_Area=form.cleaned_data['Property_Area']
+			# print(First_Name, Last_Name, Dependents, Marrige, Property_Area)
+			print(f"""
+         
+         
+				First Name: {First_Name}
+    
+    
+         		""")
+			return render(request, 'theAPI/cxform.html', {'form':form})	
+	else:
+		form = ApprovalForm()
+		return render(request, 'theAPI/cxform.html', {'form':form})

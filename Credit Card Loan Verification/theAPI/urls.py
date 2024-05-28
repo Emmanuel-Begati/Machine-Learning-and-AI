@@ -5,9 +5,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('MyAPI', views.ApprovalsView)
 urlpatterns = [
-	path('form/', views.ApprovalForm, name='myform'),
+	path('form/', views.cxcontact, name='myform'),
     path('api/', include(router.urls)),
-    path('status/', views.approvereject),
-    path('cx/', views.cxcontact),
- 
+    path('status/', views.approvereject), 
 ] 
