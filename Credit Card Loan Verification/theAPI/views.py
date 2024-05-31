@@ -20,12 +20,25 @@ import pandas as pd
 class ApprovalsView(viewsets.ModelViewSet):
 	queryset = approval.objects.all()
 	serializer_class = approvalSerializer
+ 
+def ohevalue(df):
+	ohe_col = joblib.load("C:/Users/begat/Desktop/Machine-Learning-and-AI/Credit Card Loan Verification/container/loan_model.pkl")
+	cat_columns=['Gender', 'Married', 'Education', 'Self_Employed', 'Property_Area']
+	df_processed=pd.get_dummies(df, columns=cat_columns)
+	new_dict={}
+	for i in ohe_col:
+		if i in df_processed.columns:
+			new_dict[i]=df_processed[i].values
+		else:
+			new_dict[i]=0
+	new_df=pd.DataFrame(new_dict)
+	return new_df
 		
 @api_view(["POST"])
 def approvereject(request):
 	try:
 		mdl=joblib.load("/Users/sahityasehgal/Documents/Coding/DjangoApiTutorial/DjangoAPI/MyAPI/loan_model.pkl")
-		#mydata=pd.read_excel('/Users/sahityasehgal/Documents/Coding/bankloan/test.xlsx')
+		#mydata=pd.read_excel('C:\Users\begat\Desktop\Machine-Learning-and-AI\Credit Card Loan Verification\container\test.xlsx')
 		mydata=request.data
 		unit=np.array(list(mydata.values()))
 		unit=unit.reshape(1,-1)
@@ -53,19 +66,15 @@ def cxcontact(request):
 			Loan_Amount_Term=form.cleaned_data['Loan_Amount_Term']
 			Credit_History=form.cleaned_data['Credit_History']
 			Gender=form.cleaned_data['Gender']
-			Marrige=form.cleaned_data['Marrige']
+			Married=form.cleaned_data['Married']
 			Education=form.cleaned_data['Education']
 			Self_Employed=form.cleaned_data['Self_Employed']
 			Property_Area=form.cleaned_data['Property_Area']
-			# print(First_Name, Last_Name, Dependents, Marrige, Property_Area)
-			print(f"""
-         
-         
-				First Name: {First_Name}
-    
-    
-         		""")
-			return render(request, 'theAPI/cxform.html', {'form':form})	
+			print(First_Name, Last_Name, Dependents, Married, Property_Area)
+			myDict = (request.POST).dict()
+			df=pd.DataFrame(myDict, index=[0])
+			# print(approvereject(ohevalue(df)))
+			print(ohevalue(df))
 	else:
 		form = ApprovalForm()
 		return render(request, 'theAPI/cxform.html', {'form':form})

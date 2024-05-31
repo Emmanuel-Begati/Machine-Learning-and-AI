@@ -9,6 +9,8 @@ djangorestframework = "*"
 panda = "*"
 pandas = "*"
 scikit-learn = "*"
+keras = "*"
+tensorflow = "*"
 
 [dev-packages]
 
