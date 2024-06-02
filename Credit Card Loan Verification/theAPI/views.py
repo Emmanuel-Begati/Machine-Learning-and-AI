@@ -12,7 +12,10 @@ import joblib
 from keras import backend as K
 import pandas as pd
 import numpy as np
-from django.views.decorators.csrf import csrf_exempt  # Add this import
+from django.views.decorators.csrf import csrf_exempt
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, module="sklearn")
 
 
 class ApprovalsView(viewsets.ModelViewSet):
@@ -28,14 +31,22 @@ def ohevalue(df):
         if i in df_processed.columns:
             new_dict[i] = df_processed[i].values
         else:
-            new_dict[i] = 0
+            new_dict[i] = np.zeros(len(df_processed))
     new_df = pd.DataFrame(new_dict)
     return new_df
 
 def approvereject(unit):
     try:
         mdl = joblib.load("C:/Users/begat/Desktop/Machine-Learning-and-AI/Credit Card Loan Verification/container/loan_model.pkl")
-        scalers = joblib.load("C:/Users/begat/Desktop/Machine-Learning-and-AI/Credit Card Loan Verification/container/scalers.pkl")
+        scalers = joblib.load("C:/Users/begat/Desktop/Machine-Learning-and-AI/Credit Card Loan Verification/container/scalers_real.pkl")
+        
+        # Debugging statements
+        print(f"Type of scalers: {type(scalers)}")
+        if isinstance(scalers, np.ndarray):
+            print("Scalers object is a numpy array, which is incorrect.")
+        else:
+            print("Scalers object is correctly loaded.")
+
         X = scalers.transform(unit)
         y_pred = mdl.predict(X)
         y_pred = (y_pred > 0.58)
@@ -44,7 +55,7 @@ def approvereject(unit):
         K.clear_session()
         return (newdf.values[0][0], X[0])
     except ValueError as e:
-        return (e.args[0], None)
+        return (str(e), None)
 
 @csrf_exempt
 def cxcontact(request):
@@ -65,11 +76,11 @@ def cxcontact(request):
             Self_Employed = form.cleaned_data['Self_Employed']
             Property_Area = form.cleaned_data['Property_Area']
             
-            print(First_Name, Last_Name, Dependents, Married, Property_Area)
             myDict = (request.POST).dict()
             df = pd.DataFrame(myDict, index=[0])
             processed_df = ohevalue(df)
             decision, scaled_data = approvereject(processed_df)
+            print(f"Decision before encoding: {decision}")
             print(decision, scaled_data)
             return JsonResponse({'status': 'success', 'decision': decision, 'scaled_data': scaled_data.tolist() if scaled_data is not None else None})
         
