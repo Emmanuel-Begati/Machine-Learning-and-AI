@@ -25,19 +25,19 @@ class approval(models.Model):
     )
     
         
-    firstname = models.CharField(max_length=15)
-    lastname = models.CharField(max_length=15)
-    dependants = models.IntegerField()
-    applicantincome = models.FloatField()
-    coapplicantincome = models.FloatField()
-    loanamount = models.FloatField()
-    loanterm = models.IntegerField()
-    credithistory = models.FloatField(default=0)
-    gender=models.CharField(max_length=10, choices=GENDER_CHOICES)
-    married=models.CharField(max_length=10, choices=MARRIED_CHOICES)
-    graduatededucation=models.CharField(max_length=15, choices=GRADUATED_CHOICES)
-    selfemployed=models.CharField(max_length=10, choices=SELFEMPLOYED_CHOICES)
-    area=models.CharField(max_length=10, choices=AREA_CHOICES)
+    First_Name = models.CharField(max_length=15)
+    Last_Name = models.CharField(max_length=15)
+    Dependants = models.IntegerField()
+    ApplicantIncome = models.FloatField()
+    CoapplicantIncome = models.FloatField()
+    LoanAmount = models.FloatField()
+    Loan_Amount_Term = models.IntegerField()
+    Credit_History = models.FloatField(default=0)
+    Gender=models.CharField(max_length=10, choices=GENDER_CHOICES)
+    Married=models.CharField(max_length=10, choices=MARRIED_CHOICES)
+    Education=models.CharField(max_length=15, choices=GRADUATED_CHOICES)
+    Self_Employed=models.CharField(max_length=10, choices=SELFEMPLOYED_CHOICES)
+    Property_Area=models.CharField(max_length=10, choices=AREA_CHOICES)
     
     def __str__(self):
         return self.firstname
