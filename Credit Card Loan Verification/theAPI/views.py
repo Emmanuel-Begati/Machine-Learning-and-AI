@@ -25,7 +25,8 @@ class ApprovalsView(viewsets.ModelViewSet):
 def ohevalue(df):
     ohe_col = joblib.load("C:/Users/begat/Desktop/Machine-Learning-and-AI/Credit Card Loan Verification/container/allcol.pkl")
     cat_columns = ['Gender', 'Married', 'Education', 'Self_Employed', 'Property_Area']
-    df_processed = pd.get_dummies(df, columns=cat_columns)
+    df_processed = pd.get_dummies(df, columns=cat_columns, dummy_na=False, drop_first=True)
+    df_processed = df_processed.replace({True: 1, False: 0})
     new_dict = {}
     for i in ohe_col:
         if i in df_processed.columns:
@@ -80,8 +81,9 @@ def cxcontact(request):
             df = pd.DataFrame(myDict, index=[0])
             processed_df = ohevalue(df)
             decision, scaled_data = approvereject(processed_df)
-            print(f"Decision before encoding: {decision}")
             print(decision, scaled_data)
+            for column, value in processed_df.items():
+                print(f"{column}: {value.iloc[0]}")  
             return JsonResponse({'status': 'success', 'decision': decision, 'scaled_data': scaled_data.tolist() if scaled_data is not None else None})
         
         else:
